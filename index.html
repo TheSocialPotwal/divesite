@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Freedive Luzern</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); align-items:center; justify-content:center; z-index:50; }
+    .lightbox img { max-height:90%; max-width:90%; border-radius:0.5rem; }
+    .lightbox .arrow { position:absolute; top:50%; transform:translateY(-50%); font-size:3rem; color:white; cursor:pointer; user-select:none; padding:0 1rem; }
+    .lightbox .left { left:1rem; }
+    .lightbox .right { right:1rem; }
+    .lightbox .close { position:absolute; top:1rem; right:1rem; font-size:2rem; color:white; cursor:pointer; }
+  </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-sky-100 text-slate-800">
 
@@ -41,15 +49,15 @@
     <h3 class="text-xl font-bold mb-4">Beliebte Spots rund um Luzern</h3>
     <ul class="grid md:grid-cols-3 gap-4">
       <li class="p-4 bg-white rounded-2xl shadow flex flex-col items-center">
-        <img src="images/lopper.jpg" alt="Tauchplatz Lopper" class="w-full h-32 object-cover rounded-xl mb-2"/>
+        <img src="images/lopper.jpg" alt="Tauchplatz Lopper" class="w-full h-32 object-cover rounded-xl mb-2 lightbox-trigger"/>
         <span class="text-center">Tauchplatz Lopper bei Hergiswil - einfach zugängliche Einstiegsstelle mit kostenloser Parkmöglichkeit. Unser Urban Dive Spot.</span>
       </li>
       <li class="p-4 bg-white rounded-2xl shadow flex flex-col items-center">
-        <img src="images/ruetenen.jpg" alt="Tauchplatz Rütenen" class="w-full h-32 object-cover rounded-xl mb-2"/>
+        <img src="images/ruetenen.jpg" alt="Tauchplatz Rütenen" class="w-full h-32 object-cover rounded-xl mb-2 lightbox-trigger"/>
         <span class="text-center">Tauchplatz Rütenen bei Beckenried - wunderschöne Freiluftfläche mit viel Wiese und Sanitäranlagen sowie einem Kiosk.</span>
       </li>
       <li class="p-4 bg-white rounded-2xl shadow flex flex-col items-center">
-        <img src="images/baumgartli.jpg" alt="Zuger See, Baumgärtli" class="w-full h-32 object-cover rounded-xl mb-2"/>
+        <img src="images/baumgartli.jpg" alt="Zuger See, Baumgärtli" class="w-full h-32 object-cover rounded-xl mb-2 lightbox-trigger"/>
         <span class="text-center">Baumgärtli am Zugersee — Schöne und ruhige Bucht, auch hier trifft man uns regelmässig an.</span>
       </li>
     </ul>
@@ -59,16 +67,16 @@
     <h3 class="text-xl font-bold mb-4">Galerie</h3>
     <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
       <figure class="rounded-lg overflow-hidden shadow">
-        <img src="images/freediveLopper-52.jpg" alt="Freediving am Lopper" class="w-full h-40 object-cover"/>
+        <img src="images/freediveLopper-52.jpg" alt="Freediving am Lopper" class="w-full h-40 object-cover lightbox-trigger"/>
       </figure>
       <figure class="rounded-lg overflow-hidden shadow">
-        <img src="images/freediveLopper-55.jpg" alt="Vierwaldstättersee" class="w-full h-40 object-cover"/>
+        <img src="images/freediveLopper-55.jpg" alt="Vierwaldstättersee" class="w-full h-40 object-cover lightbox-trigger"/>
       </figure>
       <figure class="rounded-lg overflow-hidden shadow">
-        <img src="images/freediveLopper-25.jpg"  alt="Freediving Lucerne" class="w-full h-40 object-cover"/>
+        <img src="images/freediveLopper-25.jpg"  alt="Freediving Lucerne" class="w-full h-40 object-cover lightbox-trigger"/>
       </figure>
       <figure class="rounded-lg overflow-hidden shadow">
-        <img src="images/IMG_5049_boje2.jpg" alt="Boje" class="w-full h-40 object-cover"/>
+        <img src="images/IMG_5049_boje2.jpg" alt="Boje" class="w-full h-40 object-cover lightbox-trigger"/>
       </figure>
     </div>
   </section>
@@ -78,9 +86,7 @@
       <h3 class="text-lg font-bold">Du hast Fragen oder willst mitmachen?</h3>
       <p class="text-sm mb-4">Dann schreibe mir auf Instagram oder tritt unserer Schweizer Freedive Community auf Facebook bei.</p>
       <div class="flex gap-3 items-center">
-        
-        <a href="https://instagram.com/socialpotwal" target="_blank" class="inline-block px-5 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg shadow hover:brightness-105">Instagram</a>      <div class="flex gap-3 items-center">
-        
+        <a href="https://instagram.com/socialpotwal" target="_blank" class="inline-block px-5 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg shadow hover:brightness-105">Instagram</a>
         <a href="https://www.facebook.com/groups/540652669363853/" target="_blank" class="inline-block px-5 py-3 bg-gradient-to-r from-blue-500 to-blue-500 text-white rounded-lg shadow hover:brightness-105"> Facebook </a>
       </div>
     </div>
@@ -92,6 +98,45 @@
       <p class="text-sm opacity-80">Gestaltet mit ❤️ für den Vierwaldstättersee</p>
     </div>
   </footer>
+
+  <div id="lightbox" class="lightbox">
+    <span class="close">&times;</span>
+    <span class="arrow left">&#10094;</span>
+    <img src="" alt="Großansicht" />
+    <span class="arrow right">&#10095;</span>
+  </div>
+
+  <script>
+    const triggers = document.querySelectorAll('.lightbox-trigger');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = lightbox.querySelector('.close');
+    const leftArrow = lightbox.querySelector('.left');
+    const rightArrow = lightbox.querySelector('.right');
+    
+    let currentIndex = 0;
+    const images = Array.from(triggers);
+
+    function showImage(index) {
+      if (index < 0) index = images.length - 1;
+      if (index >= images.length) index = 0;
+      currentIndex = index;
+      lightboxImg.src = images[currentIndex].src;
+      lightbox.style.display = 'flex';
+    }
+
+    triggers.forEach((trigger, index) => {
+      trigger.addEventListener('click', () => showImage(index));
+    });
+
+    closeBtn.addEventListener('click', () => lightbox.style.display = 'none');
+    leftArrow.addEventListener('click', () => showImage(currentIndex - 1));
+    rightArrow.addEventListener('click', () => showImage(currentIndex + 1));
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>
